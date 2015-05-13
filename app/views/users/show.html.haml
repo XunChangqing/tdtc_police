@@ -1,0 +1,41 @@
+%p#notice= notice
+
+%h1= t("user.info")
+
+.panel.panel-info
+  .panel-heading= t('user.info')
+  -#.panel-body
+  %table.table.table-hover.table-bordered
+    -#%thead
+      -#%tr
+        -#%th= t('user.info_name')
+        -#%th= t('user.info_content')
+    %tbody
+      %tr
+        %td= t('user.username')
+        %td= @user.username
+      %tr
+        %td= t('user.orgnization')
+        %td= t(@user.orgnization)
+      %tr
+        %td= t('user.phonenumber')
+        %td= @user.phonenumber
+      %tr
+        %td= t('user.email')
+        %td= @user.email
+      %tr
+        %td= t('user.status_name')
+        %td= t(@user.status)
+
+.panel.panel-info
+  .panel-heading= t('user.acr.src_authority')
+  .panel-body
+    - for role in User::ROLES
+      = check_box_tag "user[src_roles][#{role}]", role, @user.roles.include?(role), {name: "user[src_roles][]", disabled: true}
+      = label_tag "user_roles_#{role}", t(role)
+      |
+
+.center
+  = link_to t("user.edit"), edit_user_path(@user), class: "btn btn-default"
+  \|
+  = link_to t("user.back"), users_path, class: "btn btn-default"

@@ -1,0 +1,7 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(:name=> t('user.log.log_name')) do |sheet|
+  sheet.add_row [t('user.log.username'), t('user.log.operation'), t('user.log.target_username'), t('user.log.remark'), t('user.log.created_at')]
+  @user_logs.each do |user_log|
+    sheet.add_row [user_log.user.username, t(user_log.operation), user_log.target_user, user_log.remark, l(user_log.created_at)]
+  end
+end

@@ -1,0 +1,114 @@
+- provide :title, t("user.info")
+%h1= t("user.info")
+
+.panel.panel-info
+  .panel-heading= t('user.info')
+  .panel-body
+    %p
+      %b= t('user.orgnization')+': '
+      = t(@user.orgnization)
+    = form_for @user, url: registrations_update_url do |f|
+      - if @user.errors.any?
+        #error_explanation
+          %h2= "#{@user.errors.count}"+t("common.error")+":"
+          %ul
+            - @user.errors.full_messages.each do |msg|
+              %li= msg
+    
+      .form-group
+        = f.label t("user.phonenumber")
+        = f.telephone_field :phonenumber, class: "form-control", placeholder: t("user.phonenumber")
+      .form-group
+        = f.label t("user.email")
+        = f.text_field :email, class: "form-control", placeholder: t("user.email")
+      .actions
+        = f.submit t("user.modify_info"), class: "btn btn-primary"
+
+.panel.panel-info
+  .panel-heading= t('user.acr.history')
+  .panel-body
+    %table.table.table-hover
+      %thead
+        %tr
+          %th= t 'user.acr.src_authority'
+          %th= t 'user.acr.dst_authority'
+          %th= t 'user.acr.user_remark_name'
+          %th= t 'user.acr.status_name'
+          -#%th= t 'user.acr.manager_remark_name'
+          %th= t 'user.acr.created_at'
+          %th= t 'user.acr.updated_at'
+          %th= t 'common.operations'
+    
+      %tbody
+        - @acrs.each do |acr|
+          %tr{:class => ('warning' if acr.status == 'user.acr.status.submited')}
+            %td
+              - for role in User::ROLES
+                = check_box_tag '#{role}', role, acr.src_roles.include?(role), {disabled: true}
+                -#= label_tag "user_roles_#{role}", t(role)
+                |
+            %td
+              - for role in User::ROLES
+                = check_box_tag '#{role}', role, acr.dst_roles.include?(role), {disabled: true}
+                -#= label_tag "user_roles_#{role}", t(role)
+                |
+            %td= acr.user_remark
+            %td= t acr.status
+            -#%td= acr.manager_remark
+            %td= l acr.created_at
+            %td= l acr.updated_at
+            %td
+              -if acr.status == 'user.acr.status.submited'
+                =link_to t('user.acr.destroy'), delete_authority_change_request_path(acr), method: :delete, data: {confirm: t('common.make_sure')}
+
+.panel.panel-info
+  .panel-heading= t('user.acr.request')
+  .panel-body
+    =form_for @authority_change_request do |f|
+      -#.form-group
+        -#=f.label
+      .form-group
+        =f.label t("user.acr.src_authority")
+        %br
+        - for role in User::ROLES
+          = check_box_tag "user[src_roles][#{role}]", role, @authority_change_request.src_roles.include?(role), {name: "user[src_roles][]", disabled: true}
+          = label_tag "user_roles_#{role}", t(role)
+          |
+      -#= hidden_field_tag "user[src_roles][]"
+    
+      .form-group
+        =f.label t("user.acr.dst_authority")
+        %br
+        - for role in User::ROLES
+          = check_box_tag "authority_change_request[dst_roles][#{role}]", role, @authority_change_request.dst_roles.include?(role), {name: "authority_change_request[dst_roles][]"}
+          = label_tag "user_roles_#{role}", t(role)
+          |
+      = hidden_field_tag "authority_change_request[dst_roles][]"
+    
+      .form-group
+        =f.label t('user.acr.user_remark_name')
+        =f.text_area :user_remark, class: 'form-control'
+      
+      .actions
+        = f.submit t('user.acr.submit'), method: :post, class: 'btn btn-primary'
+
+.panel.panel-info
+  .panel-heading= t('user.modify_password')
+  .panel-body
+    = form_for @user, url: registrations_update_url do |f|
+      - if @user.errors.any?
+        #error_explanation
+          %h2= "#{@user.errors.count}"+t("common.error")+":"
+          %ul
+            - @user.errors.full_messages.each do |msg|
+              %li= msg
+    
+      .form-group
+        = f.label t("user.password")
+        = f.password_field :password, class: "form-control", placeholder: t("user.password")
+      .form-group
+        = f.label t("user.password_confirmation")
+        = f.password_field :password_confirmation, class: "form-control", placeholder: t("user.password_confirmation")
+      .actions
+        = f.submit t("user.modify_password"), class: "btn btn-primary"
+    

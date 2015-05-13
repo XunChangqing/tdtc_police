@@ -1,0 +1,11 @@
+-provide :title, t('user.prr.edit')
+%h1= t('user.prr.edit') + t('user.prr.request') + ' ' + @password_reset_request.user.username
+
+= form_for @password_reset_request do |f|
+  .form-group
+    = f.label t('user.prr.remark')
+    = f.text_area :remark, class: 'form-control'
+  .actions
+    = f.submit t('user.prr.edit'), class: 'form-control btn btn-primary'
+
+= link_to t('user.back'), password_reset_requests_path

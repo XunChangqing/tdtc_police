@@ -1,0 +1,9 @@
+- provide :title, t("user.edit")
+%h1= t("user.edit")+" "+@user.username
+
+= render 'form'
+
+.center
+  = link_to t("user.show"), @user, class: "btn btn-default"
+  \|
+  = link_to t("user.back"), users_path, class: "btn btn-default"

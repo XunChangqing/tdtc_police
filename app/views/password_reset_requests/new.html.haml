@@ -1,0 +1,44 @@
+-provide :title, t('user.prr.request')
+%h1= t('user.prr.request')
+
+-#= render 'form'
+-#= form_for @password_reset_request do |f|
+
+  -#.field
+    -#= f.label :user
+    -#= f.text_field :user_id
+  -#.field
+    -#= f.label :remark
+    -#= f.text_area :remark
+  -#.field
+    -#= f.label :status
+    -#= f.text_field :status
+  -#.actions
+    -#= f.submit 'Save'
+
+-#=form_for(@password_reset_request, html: {class: "form-inline text-center"}) do |f|
+  -#- if @password_reset_request.errors.any?
+    -##error_explanation
+      -#%h2= "#{pluralize(@password_reset_request.errors.count, "error")} prohibited this password_reset_request from being saved:"
+      -#%ul
+        -#- @password_reset_request.errors.full_messages.each do |msg|
+          -#%li= msg
+  -#=f.hidden_field :user_id, :value => @user.id
+  -#=f.label t('user.username')
+  -#=f.text_field :username, class: 'form-control', placeholder: t('user.username')
+  -#=f.submit t('user.prr.request'), class: 'btn'
+
+-#=form_tag password_reset_requests_path, method: :post, class: 'form-inline text-center' do
+=form_for(@password_reset_request) do |f|
+  - if @password_reset_request.errors.any?
+    %p.text-center.text-warning= t('user.prr.user_not_exist')
+  .form-group
+    =label_tag t('user.username')
+    =text_field_tag 'username', nil, class: 'form-control', placeholder: t('user.username')
+  .form-group
+    =f.label t('user.prr.remark')
+    =f.text_area :remark, class: 'form-control', placeholder: t('user.prr.remark_info')
+  .action
+    =submit_tag nil, class: 'btn btn-primary'
+
+-#= link_to 'Back', password_reset_requests_path

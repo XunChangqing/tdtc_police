@@ -1,0 +1,50 @@
+= form_for @user do |f|
+  - if @user.errors.any?
+    #error_explanation
+      %h2= "#{@user.errors.count}"+t("common.error")+":"
+      -#%h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+      %ul
+        - @user.errors.full_messages.each do |msg|
+          %li= msg
+
+  -#-if current_page? action: 'new' or current_page? action: 'create'
+  -if controller.action_name == 'new' or controller.action_name == 'create'
+    .form-group
+      = f.label t("user.username")
+      = f.text_field :username, class: "form-control", placeholder: t("user.username")
+  .form-group
+    = f.label t("user.orgnization")
+    -#= f.select :orgnization, User::ORGS.each.collect {|org| [t(org), org]}, {}, {class: "form-control"}
+    =f.collection_select :orgnization, User::ORGS, :to_s, :translated_str, {}, {class: "form-control"}
+
+  .form-group
+    = f.label t("user.email")
+    = f.email_field :email, class: "form-control", placeholder: t("user.email")
+
+  .form-group
+    = f.label t('user.phonenumber')
+    = f.telephone_field :phonenumber, class: 'form-control', placeholder: t('user.phonenumber')
+
+  .form-group
+    = f.label t("user.authority")
+    %br
+    - for role in User::ROLES
+      = check_box_tag "user[roles][#{role}]", role, @user.roles.include?(role), {name: "user[roles][]"}
+      = label_tag "user_roles_#{role}", t(role)
+      |
+      -#%br
+  = hidden_field_tag "user[roles][]"
+
+  .form-group
+    =f.label t('user.status_name')
+    =f.collection_select :status, User::STATUS, :to_s, :translated_str, {}, {class: "form-control"}
+
+  .form-group
+    = f.label "#{t("user.password")} #{(t("user.password_leave_blank") if controller.action_name == 'edit' or controller.action_name == 'update')}"
+    = f.password_field :password, class: "form-control", placeholder: t("user.password")
+  .form-group
+    = f.label t("user.password_confirmation")
+    = f.password_field :password_confirmation, class: "form-control", placeholder: t("user.password_confirmation")
+
+  .actions
+    = f.submit t("user.save"), class: "btn btn-primary"

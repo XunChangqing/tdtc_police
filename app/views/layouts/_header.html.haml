@@ -1,0 +1,15 @@
+%header.navbar.navbar-inverse
+  .container
+    = link_to t("tdtc_project"), welcome_index_url, {id: "logo"}
+    %nav
+      %ul.nav.navbar-nav.navbar-right
+        %li= link_to t("common.home"), welcome_index_url
+        -unless current_user
+          %li= link_to t("common.sign_up"), registrations_signup_url
+          %li= link_to t("common.log_in"), welcome_index_url
+        -if current_user
+          %li= link_to current_user.username, registrations_profile_url
+          -if current_user.is? "user.user_admin"
+            %li= link_to t("user.admin"), users_url
+          %li= link_to t("common.log_out"), registrations_logout_url
+        %li= link_to t("common.help"), "#"

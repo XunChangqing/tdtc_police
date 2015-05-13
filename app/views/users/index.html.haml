@@ -1,0 +1,62 @@
+-#.center.jumbotron
+- provide :title, t("user.index")
+.container
+  %h1= t("user.index")
+  %nav
+    %ul.nav.nav-pills.navbar-right{role: 'tablist'}
+      -#%li
+        -#=button_to  t('user.all'), options = {action: 'index'}, html_options = {class: 'btn', method: :get}
+      -#%li
+        -#=button_to  options = {action: 'index'}, html_options = {class: 'btn', method: :get, params: {status: 'user.status.signup'}}  do
+          =t('user.tobechecked')
+          %span.badge= User.where(["status = ?", 'user.status.signup']).count
+      %li{role: 'presentation'}
+        =link_to password_reset_requests_path, html_options = {class: 'btn', method: :get, params: {status: 'user.prr.status.submit'}} do
+          =t('user.prr.request')
+          -@prr_count = PasswordResetRequest.where(['status=?', 'user.prr.status.submit']).count 
+          -if @prr_count>0
+            %span.badge= @prr_count
+      %li
+        =link_to authority_change_requests_path, html_options = {class: 'btn', method: :get, params: {status: 'user.acr.status.submited'}} do
+          =t('user.acr.request')
+          -@acr_count = AuthorityChangeRequest.where(['status=?', 'user.acr.status.submited']).count
+          -if @acr_count>0
+            %span.badge= @acr_count
+
+      %li
+        =link_to user_logs_path, html_options = {class: 'btn', method: :get} do
+          =t('user.log.log_name')
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th= t("user.username")
+      %th= t("user.phonenumber")
+      -#%th= t("user.email")
+      %th= t('user.orgnization')
+      %th= t('user.status_name')
+      %th= t("user.created_at")
+      %th= t("user.updated_at")
+      %th= t("user.operations")
+
+  %tbody#userbody
+    - @users.each do |user|
+      %tr{:class => ('warning' if user.status == 'user.status.signup')}
+        %td
+          =link_to user_path(user) do
+            =user.username
+        %td= user.phonenumber
+        %td= t(user.orgnization)
+        %td= t(user.status)
+        %td= l user.created_at
+        %td= l user.updated_at
+        %td
+          %ul.list-inline
+            -#%li= link_to t("user.show"), user
+            %li= link_to t("user.edit"), edit_user_path(user)
+            %li= link_to t("user.destroy"), user, method: :delete, data: {confirm: "Are you sure?"}
+            -if user.status == 'user.status.signup'
+              %li= link_to t('user.approve'), approve_user_path(user), method: :post, data:{confirm: t('common.make_sure')}
+
+.center
+  =link_to t("user.new"), new_user_path, class: "btn btn-lg btn-primary", role: "button"

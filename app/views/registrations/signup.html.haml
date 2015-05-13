@@ -1,0 +1,26 @@
+- provide :title, t("user.signup")  
+%h1= t("user.signup") 
+
+= form_for @user, url: registrations_create_url do |f|
+  - if @user.errors.any?
+    #error_explanation
+      %h2= "#{@user.errors.count}"+t("common.error")+":"
+      %ul
+        - @user.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label t("user.username")
+    = f.text_field :username, class: "form-control", placeholder: t("user.username")
+  .form-group
+    = f.label t("user.orgnization")
+    -#= f.select :orgnization, User::ORGS.each.collect {|org| [t(org), org]}, {}, {class: "form-control"}
+    =f.collection_select :orgnization, User::ORGS, :to_s, :translated_str, {}, {class: "form-control"}
+  .form-group
+    = f.label t("user.password")
+    = f.password_field :password, class: "form-control", placeholder: t("user.password")
+  .form-group
+    = f.label t("user.password_confirmation")
+    = f.password_field :password_confirmation, class: "form-control", placeholder: t("user.password_confirmation")
+  .actions
+    = f.submit t("user.submit"), class: "btn btn-primary"

@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @user_log.user
+%p
+  %b Operation:
+  = @user_log.operation
+%p
+  %b Target user:
+  = @user_log.target_user
+%p
+  %b Remark:
+  = @user_log.remark
+
+= link_to 'Edit', edit_user_log_path(@user_log)
+\|
+= link_to 'Back', user_logs_path

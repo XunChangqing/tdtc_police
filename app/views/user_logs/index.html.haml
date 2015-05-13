@@ -1,0 +1,24 @@
+-provide :title, t('user.log.log_name')
+-#%h1 Listing user_logs
+.container
+  %h1= t('user.log.log_name')
+
+%table.table.table-hover
+  %thead
+    %th= t('user.log.username')
+    %td= t('user.log.operation')
+    %td= t('user.log.target_username')
+    %td= t('user.log.remark')
+    %td= t('user.log.created_at')
+
+  %tbody
+    - @user_logs.each do |user_log|
+      %tr
+        %td= user_log.user.username
+        %td= t(user_log.operation)
+        %td= user_log.target_user
+        %td= user_log.remark
+        %td= l user_log.created_at
+
+=link_to t('user.log.exportxls'), exportxls_user_logs_path(format: :xlsx)
+-#= link_to 'New User log', new_user_log_path

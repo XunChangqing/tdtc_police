@@ -1,0 +1,7 @@
+- provide :title, t("user.new")
+%h1= t("user.new")
+
+= render 'form'
+
+.center
+  = link_to t("user.back"), users_path, class: "btn btn-default"

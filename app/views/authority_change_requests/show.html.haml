@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @authority_change_request.user
+%p
+  %b Src authority:
+  = @authority_change_request.src_authority
+%p
+  %b Dst authority:
+  = @authority_change_request.dst_authority
+%p
+  %b User remark:
+  = @authority_change_request.user_remark
+%p
+  %b Manager remark:
+  = @authority_change_request.manager_remark
+%p
+  %b Status:
+  = @authority_change_request.status
+
+= link_to 'Edit', edit_authority_change_request_path(@authority_change_request)
+\|
+= link_to 'Back', authority_change_requests_path

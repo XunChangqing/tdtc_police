@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @password_reset_request.user
+%p
+  %b Remark:
+  = @password_reset_request.remark
+%p
+  %b Status:
+  = @password_reset_request.status
+
+= link_to 'Edit', edit_password_reset_request_path(@password_reset_request)
+\|
+= link_to 'Back', password_reset_requests_path

@@ -1,0 +1,27 @@
+- provide :title, t("user.edit")
+%h1= t("user.edit")+" "+current_user.username
+
+= form_for current_user, url: registrations_update_url do |f|
+  - if current_user.errors.any?
+    #error_explanation
+      %h2= "#{current_user.errors.count}"+t("common.error")+":"
+      %ul
+        - current_user.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label t("user.password")
+    = f.password_field :password, class: "form-control", placeholder: t("user.password")
+  .form-group
+    = f.label t("user.password_confirmation")
+    = f.password_field :password_confirmation, class: "form-control", placeholder: t("user.password_confirmation")
+  .actions
+    = f.submit t("user.save"), class: "btn btn-primary"
+  -#.actions
+    -#= f.cancel t("user.cancel"), class: "btn btn-default"
+-#= render 'form'
+
+-#.center
+  -#= link_to t("user.show"), @user, class: "btn btn-default"
+  -#\|
+  -#= link_to t("user.back"), users_path, class: "btn btn-default"
