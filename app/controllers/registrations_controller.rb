@@ -1,6 +1,7 @@
 require "application_helper"
 class RegistrationsController < ApplicationController
   before_filter CASClient::Frameworks::Rails::Filter, except: [:signup, :reset_password, :logout, :create]
+  layout "welcome", :only => [:signup]
   def signup
     @user = User.new
   end

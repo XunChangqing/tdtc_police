@@ -3,13 +3,36 @@
     = link_to t("tdtc_project"), welcome_index_url, {id: "logo"}
     %nav
       %ul.nav.navbar-nav.navbar-right
-        %li= link_to t("common.home"), welcome_index_url
         -unless current_user
           %li= link_to t("common.sign_up"), registrations_signup_url
           %li= link_to t("common.log_in"), welcome_index_url
         -if current_user
-          %li= link_to current_user.username, registrations_profile_url
-          -if current_user.is? "user.user_admin"
-            %li= link_to t("user.admin"), users_url
+          -#%li
+            -#%p= current_user.username
+          %li= link_to current_user.username, welcome_profile_url, html:{disable: "disable"}
           %li= link_to t("common.log_out"), registrations_logout_url
         %li= link_to t("common.help"), "#"
+    -#%br
+    -#%br
+    -#%p =current_page
+  -if controller_name == "welcome"
+    -#.container
+      -#-#%div{"role"=>"tabpanel"}
+      -#%ul#myTab.nav.nav-tabs{"role"=>"tablist"}
+        -#%li.active{:role=>"presentation"}
+          -#= link_to t("common.home"), "#home", {role: 'tab', "aria-controls"=>"home", "data-toggle"=> 'tab'}
+        -#%li{:role=>"presentation"}
+          -#=link_to t("user.profile"), "#profile", {role: 'tab', "aria-controls"=>"profile", "data-toggle"=>'tab'}
+        -#-if current_user.is? 'user.user_admin'
+          -#%li{:role=>"presentation"}
+            -#= link_to t("user.admin"), "#useradmin", {role: 'tab', "aria-controls"=>"useradmin", "data-toggle"=>"tab"}
+    .container
+      -#%div{"role"=>"tabpanel"}
+      %ul#myTab.nav.nav-tabs{"role"=>"tablist"}
+        %li{:class=>("active" if action_name=="index"), :role=>"presentation"}
+          = link_to t("common.home"), welcome_index_url, {role: 'tab'}
+        %li{:class=>("active" if action_name=="profile"), :role=>"presentation"}
+          =link_to t("user.profile"), welcome_profile_url, {role: 'tab'}
+        -if current_user.is? 'user.user_admin'
+          %li{:class=>("active" if action_name=="useradmin"), :role=>"presentation"}
+            = link_to t("user.admin"), welcome_useradmin_url, {role: 'tab'}

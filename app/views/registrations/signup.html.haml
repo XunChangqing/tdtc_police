@@ -1,7 +1,7 @@
 - provide :title, t("user.signup")  
-%h1= t("user.signup") 
 
 = form_for @user, url: registrations_create_url do |f|
+  %h2= t("user.signup") 
   - if @user.errors.any?
     #error_explanation
       %h2= "#{@user.errors.count}"+t("common.error")+":"

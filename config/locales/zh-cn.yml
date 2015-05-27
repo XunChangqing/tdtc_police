@@ -14,6 +14,7 @@ zh-cn:
     make_sure: '确定？'
     operations: '操作'
   user:
+    profile: "个人账户"
     created_at: "创建时间"
     updated_at: "更新时间"
     username: "用户名"

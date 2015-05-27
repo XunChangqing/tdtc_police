@@ -29,8 +29,8 @@ Rails.application.routes.draw do
   get 'registration/logout'
 
   get 'welcome/index'
-  get 'welcome/total'
-  get 'welcome/node'
+  get 'welcome/profile'
+  get 'welcome/useradmin'
 
   resources :users do
     member do
